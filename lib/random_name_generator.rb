@@ -71,7 +71,6 @@ module RandomNameGenerator
 
     def initialize(language_path = RandomNameGenerator::FANTASY, random: Random.new)
       @pre = nil
-      puts "WAT::#{language_path}"
       @language_path = language_path
       @rnd = random
       @pre_syllables = []
