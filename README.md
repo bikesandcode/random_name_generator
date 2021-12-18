@@ -19,6 +19,10 @@ it allows you to create names in various custom styles such as Elven,
 and Roman. If you're looking for a quick name for a Goblin NPC,
 RandomNameGenerator is your gem.
 
+This fork makes one minor change from the mainline version of this gem, the language files are not
+loaded statically as File objects, but managed as string paths and only loaded when read. I noticed
+some problems with using this gem in Rails parallel test situations. This fixes those for me.
+
 ------
 
 ## Installation
