@@ -7,8 +7,8 @@ RSpec.describe RandomNameGenerator do
     @fantasy = RandomNameGenerator::Generator.new(RandomNameGenerator::FANTASY)
     @goblin = RandomNameGenerator::Generator.new(RandomNameGenerator::GOBLIN)
     @roman = RandomNameGenerator::Generator.new(RandomNameGenerator::ROMAN)
-    @micro = RandomNameGenerator::Generator.new(File.new("#{dirname}/languages/test-micro.txt"))
-    @tiny = RandomNameGenerator::Generator.new(File.new("#{dirname}/languages/test-tiny.txt"))
+    @micro = RandomNameGenerator::Generator.new("#{dirname}/languages/test-micro.txt")
+    @tiny = RandomNameGenerator::Generator.new("#{dirname}/languages/test-tiny.txt")
   end
   it "has a version number" do
     expect(RandomNameGenerator::VERSION).not_to be nil
@@ -16,55 +16,55 @@ RSpec.describe RandomNameGenerator do
 
   context "languages" do
     it "has an Elvish language" do
-      expect(RandomNameGenerator::ELVEN).to be_a_kind_of(File)
-      expect(RandomNameGenerator::ELVEN.path).to include("languages/elven.txt")
+      expect(RandomNameGenerator::ELVEN).to be_a_kind_of(String)
+      expect(RandomNameGenerator::ELVEN).to include("languages/elven.txt")
     end
 
     it "has an Elvish Russian language" do
-      expect(RandomNameGenerator::ELVEN_RU).to be_a_kind_of(File)
-      expect(RandomNameGenerator::ELVEN_RU.path).to include("languages/elven-ru.txt")
+      expect(RandomNameGenerator::ELVEN_RU).to be_a_kind_of(String)
+      expect(RandomNameGenerator::ELVEN_RU).to include("languages/elven-ru.txt")
     end
 
     it "has an Fantasy language" do
-      expect(RandomNameGenerator::FANTASY).to be_a_kind_of(File)
-      expect(RandomNameGenerator::FANTASY.path).to include("languages/fantasy.txt")
+      expect(RandomNameGenerator::FANTASY).to be_a_kind_of(String)
+      expect(RandomNameGenerator::FANTASY).to include("languages/fantasy.txt")
     end
 
     it "has an Fantasy Russian language" do
-      expect(RandomNameGenerator::FANTASY_RU).to be_a_kind_of(File)
-      expect(RandomNameGenerator::FANTASY_RU.path).to include("languages/fantasy-ru.txt")
+      expect(RandomNameGenerator::FANTASY_RU).to be_a_kind_of(String)
+      expect(RandomNameGenerator::FANTASY_RU).to include("languages/fantasy-ru.txt")
     end
 
     it "has an Goblin language" do
-      expect(RandomNameGenerator::GOBLIN).to be_a_kind_of(File)
-      expect(RandomNameGenerator::GOBLIN.path).to include("languages/goblin.txt")
+      expect(RandomNameGenerator::GOBLIN).to be_a_kind_of(String)
+      expect(RandomNameGenerator::GOBLIN).to include("languages/goblin.txt")
     end
 
     it "has an Goblin Russian language" do
-      expect(RandomNameGenerator::GOBLIN_RU).to be_a_kind_of(File)
-      expect(RandomNameGenerator::GOBLIN_RU.path).to include("languages/goblin-ru.txt")
+      expect(RandomNameGenerator::GOBLIN_RU).to be_a_kind_of(String)
+      expect(RandomNameGenerator::GOBLIN_RU).to include("languages/goblin-ru.txt")
     end
 
     it "has an Roman language" do
-      expect(RandomNameGenerator::ROMAN).to be_a_kind_of(File)
-      expect(RandomNameGenerator::ROMAN.path).to include("languages/roman.txt")
+      expect(RandomNameGenerator::ROMAN).to be_a_kind_of(String)
+      expect(RandomNameGenerator::ROMAN).to include("languages/roman.txt")
     end
 
     it "has an Roman Russian language" do
-      expect(RandomNameGenerator::ROMAN_RU).to be_a_kind_of(File)
-      expect(RandomNameGenerator::ROMAN_RU.path).to include("languages/roman-ru.txt")
+      expect(RandomNameGenerator::ROMAN_RU).to be_a_kind_of(String)
+      expect(RandomNameGenerator::ROMAN_RU).to include("languages/roman-ru.txt")
     end
   end
 
   context "flip_mode" do
     it "returns a Generator with a random language" do
       sut = RandomNameGenerator.flip_mode
-      expect(sut.language.path).to end_with(".txt")
+      expect(sut.language_path).to end_with(".txt")
     end
 
     it "cyrillic returns a Generator with a random language" do
       sut = RandomNameGenerator.flip_mode_cyrillic
-      expect(sut.language.path).to end_with(".txt")
+      expect(sut.language_path).to end_with(".txt")
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe RandomNameGenerator do
   context "new" do
     it "creates a static factory for the Generator class" do
       elven = RandomNameGenerator.new(RandomNameGenerator::ELVEN)
-      expect(elven.language.path).to eq(RandomNameGenerator::ELVEN.path)
+      expect(elven.language_path).to eq(RandomNameGenerator::ELVEN)
     end
   end
 
@@ -87,11 +87,11 @@ RSpec.describe RandomNameGenerator do
     context "initialize" do
       context "language" do
         it "is set to the right language when the file is passed in" do
-          expect(@elven.language.path).to eq(RandomNameGenerator::ELVEN.path)
+          expect(@elven.language_path).to eq(RandomNameGenerator::ELVEN)
         end
 
         it "can accept an external language file" do
-          expect(@micro.language.path).to include("languages/test-micro.txt")
+          expect(@micro.language_path).to include("languages/test-micro.txt")
         end
 
         it "syllables are distributed" do

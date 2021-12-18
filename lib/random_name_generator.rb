@@ -21,18 +21,18 @@ require_relative "random_name_generator/syllable"
 module RandomNameGenerator
   dirname = File.dirname(__FILE__)
 
-  ELVEN = File.new("#{dirname}/languages/elven.txt")
-  FANTASY = File.new("#{dirname}/languages/fantasy.txt")
-  GOBLIN = File.new("#{dirname}/languages/goblin.txt")
-  ROMAN = File.new("#{dirname}/languages/roman.txt")
+  ELVEN = "#{dirname}/languages/elven.txt"
+  FANTASY = "#{dirname}/languages/fantasy.txt"
+  GOBLIN = "#{dirname}/languages/goblin.txt"
+  ROMAN = "#{dirname}/languages/roman.txt"
 
-  ELVEN_RU = File.new("#{dirname}/languages/elven-ru.txt")
-  FANTASY_RU = File.new("#{dirname}/languages/fantasy-ru.txt")
-  GOBLIN_RU = File.new("#{dirname}/languages/goblin-ru.txt")
-  ROMAN_RU = File.new("#{dirname}/languages/roman-ru.txt")
+  ELVEN_RU = "#{dirname}/languages/elven-ru.txt"
+  FANTASY_RU = "#{dirname}/languages/fantasy-ru.txt"
+  GOBLIN_RU = "#{dirname}/languages/goblin-ru.txt"
+  ROMAN_RU = "#{dirname}/languages/roman-ru.txt"
 
   # Experimental
-  CURSE = File.new("#{dirname}/languages/experimental/curse.txt")
+  CURSE = "#{dirname}/languages/experimental/curse.txt"
 
   # Static factory method that instantiates a RandomNameGenerator in a random language.
   def self.flip_mode
@@ -67,11 +67,12 @@ module RandomNameGenerator
   # Workhorse class that assembles names from dialect files.
   #
   class Generator
-    attr_reader :language, :pre_syllables, :sur_syllables, :mid_syllables
+    attr_reader :language_path, :pre_syllables, :sur_syllables, :mid_syllables
 
-    def initialize(language = RandomNameGenerator::FANTASY, random: Random.new)
+    def initialize(language_path = RandomNameGenerator::FANTASY, random: Random.new)
       @pre = nil
-      @language = language
+      puts "WAT::#{language_path}"
+      @language_path = language_path
       @rnd = random
       @pre_syllables = []
       @mid_syllables = []
@@ -95,7 +96,7 @@ module RandomNameGenerator
     end
 
     def to_s
-      "RandomNameGenerator::Generator (#{@language.path.split("/")[-1]})"
+      "RandomNameGenerator::Generator (#{@language_path.split("/")[-1]})"
     end
 
     private
@@ -131,10 +132,11 @@ module RandomNameGenerator
 
     # Loops through the language file, and pushes each syllable into the correct array.
     def refresh
-      @language.readlines.each do |line|
+      lang_file = File.new(@language_path)
+      lang_file.readlines.each do |line|
         push(RandomNameGenerator::Syllable.new(line)) unless line.empty?
       end
-      @language.rewind
+      lang_file.rewind
     end
 
     def push(syllable)
